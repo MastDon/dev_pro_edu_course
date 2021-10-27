@@ -9,7 +9,7 @@ pass_gen() {
   base64 /dev/urandom | head -10 | tr -d -c 'A-Za-z0-9' | cut -c1-$PASS_LENGTH
 }
 
-pass_gen_with_charset() {
+pass_gen_with_characters() {
 
   tr </dev/urandom -cd "[:print:]" | head -c $PASS_LENGTH | cut -c1-$PASS_LENGTH
 }
@@ -17,5 +17,5 @@ pass_gen_with_charset() {
 if [ -z "$SPECIAL_CHARACTERS" ]; then
   pass_gen
 else
-  pass_gen_with_charset
+  pass_gen_with_characters
 fi
