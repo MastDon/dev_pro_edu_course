@@ -67,8 +67,22 @@ run_nginx() {
   fi
 }
 
+check_crontab() {
+  echo "Check crontab...."
+  grep -c "* * * * * root bash /PATH_TO_SCRIPT_FOLDER/check_nginx.sh" /etc/crontab
+
+  if [ $? -ne 0 ]; then
+    echo "Check cronjob - FAIL"
+    #echo "Add cronjob....."
+   sudo echo "*/5 * * * * root bash /PATH_TO_SCRIPT_FOLDER/check_nginx.sh" >> /etc/crontab
+  else
+    echo "Check cronjob - SUCCESS!"
+  fi
+}
 
 
 copy_config
+
+check_crontab
 
 pgrep -x nginx >/dev/null && echo "Nginx RUNNING" || run_nginx
