@@ -9,9 +9,10 @@ terraform {
 
 
 provider "cloudflare" {
-  email   = "sleptsovilya@gmail.com"
-  api_key = "f106878cb2904700e01b39f17788655db0684"
+  email   = var.cf_mail
+  api_key = var.cf_apikey
 }
+
 
 
 resource "cloudflare_record" "CNAME" {
