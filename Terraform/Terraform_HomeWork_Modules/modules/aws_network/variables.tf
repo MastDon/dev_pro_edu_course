@@ -3,6 +3,36 @@ variable "region" {
   default     = "eu-central-1"
 }
 
+variable "env" {
+  default = "staging"
+}
+
+
+variable "vpc-cidr" {
+  default = "10.0.0.0/16"
+}
+variable "vpc-name" {
+  default = "vpc-mod"
+}
+
+variable "subnet_public_ip_on_launch" {
+  default = true
+}
+
+variable "public-subnets-cidr" {
+  default = [
+    "10.0.1.0/24",
+    "10.0.2.0/24"
+  ]
+}
+
+variable "private-subnets-cidr" {
+  default = [
+    "10.0.100.0/24",
+    "10.0.200.0/24"
+  ]
+
+}
 
 variable "instance_type" {
   description = "Set instance type"
@@ -14,23 +44,6 @@ variable "ami_latest" {
   default     = "data.aws_ami.Latest_Amazon_Linux.id"
 }
 
-variable "SecGroup_name" {
-  description = "Security group name"
-  default     = "My webserver security group"
-}
-
-variable "zone_id" {
-  description = "Enter cloudflare zone ID: "
-
-}
-
-variable "cf_mail" {
-  description = "Enter e-mail from cloudflare account: "
-}
-
-variable "cf_apikey" {
-  description = "Enter cloudflare API key: "
-}
 
 variable "dp-nat-gw" {
   default = "dp-nat-gw"
@@ -40,14 +53,3 @@ variable "dp-igw-name" {
   default = "dp-internet-gw"
 }
 
-variable "dp-lb-name" {
-  default = "dp-lb-edu"
-}
-
-variable "dp-lb-type" {
-  default = "application"
-}
-
-variable "dp-lb-listener-port" {
-  default = "80"
-}
