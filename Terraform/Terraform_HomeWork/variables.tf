@@ -31,3 +31,23 @@ variable "cf_mail" {
 variable "cf_apikey" {
   description = "Enter cloudflare API key: "
 }
+
+variable "dp-nat-gw" {
+  default = "dp-nat-gw"
+}
+
+variable "dp-igw-name" {
+  default = "dp-internet-gw"
+}
+
+variable "dp-lb-name" {
+  default = "dp-lb-edu"
+}
+
+variable "dp-lb-type" {
+  default = "application"
+}
+
+variable "dp-lb-listener-port" {
+  default = "80"
+}

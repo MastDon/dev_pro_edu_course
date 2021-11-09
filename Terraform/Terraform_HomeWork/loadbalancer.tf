@@ -1,8 +1,8 @@
 resource "aws_lb" "Balancer" {
 
-  name               = "DP-LB-Edu"
+  name               = var.dp-lb-name
   internal           = false
-  load_balancer_type = "application"
+  load_balancer_type = var.dp-lb-type
   security_groups    = [aws_security_group.SG_WEB.id]
 
   subnets = ["${aws_subnet.Public_subnet_A.id}", "${aws_subnet.Public_subnet_B.id}"]
@@ -10,9 +10,11 @@ resource "aws_lb" "Balancer" {
 
 }
 
+
+
 resource "aws_lb_listener" "front" {
   load_balancer_arn = aws_lb.Balancer.arn
-  port              = 80
+  port              = var.dp-lb-listener-port
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.Front.arn

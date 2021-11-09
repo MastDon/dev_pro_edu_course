@@ -8,9 +8,10 @@ resource "aws_internet_gateway" "IGW_DP" {
 }
 
 resource "aws_nat_gateway" "NAT_DP" {
-  subnet_id = aws_subnet.Public_subnet_A.id
+  subnet_id     = aws_subnet.Public_subnet_A.id
   allocation_id = aws_eip.DP_NAT.id
-  tags      = {
-    Name = "NAT_DP_Edu"
+  tags          = {
+    Name = var.dp-igw-name
   }
 }
+

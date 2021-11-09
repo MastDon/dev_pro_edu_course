@@ -11,28 +11,43 @@ variable "instance_type" {
 
 variable "ami_latest" {
   description = "Set latest AMI Amazon Linux in current region"
-  default = "data.aws_ami.Latest_Amazon_Linux.id"
+  default     = "data.aws_ami.Latest_Amazon_Linux.id"
 }
 
 variable "SecGroup_name" {
   description = "Security group name"
-  default = "My webserver security group"
+  default     = "My webserver security group"
 }
 
 variable "zone_id" {
-  default = "401eec6850d91255b248edf0e2ce60b8"
-}
-/**
-variable "Avail_zone-A" {
-  description = "Availability_zone-A in current region"
-  default = "data.aws_availability_zones.av_zones.names[0]"
+  description = "Enter cloudflare zone ID: "
 
 }
 
-variable "Avail_zone-B" {
-  description = "Availability_zone-B in current region"
-
-  default = "data.aws_availability_zones.av_zones.names"
-
+variable "cf_mail" {
+  description = "Enter e-mail from cloudflare account: "
 }
-*/
+
+variable "cf_apikey" {
+  description = "Enter cloudflare API key: "
+}
+
+variable "dp-nat-gw" {
+  default = "dp-nat-gw"
+}
+
+variable "dp-igw-name" {
+  default = "dp-internet-gw"
+}
+
+variable "dp-lb-name" {
+  default = "dp-lb-edu"
+}
+
+variable "dp-lb-type" {
+  default = "application"
+}
+
+variable "dp-lb-listener-port" {
+  default = "80"
+}
