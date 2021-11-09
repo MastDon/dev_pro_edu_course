@@ -21,7 +21,7 @@ resource "cloudflare_record" "CNAME" {
   value   = data.aws_lb.lb_dns_name.dns_name
   type    = "CNAME"
   proxied = true
-  #depends_on = [aws_lb.Balancer]
+
 }
 
 resource "cloudflare_record" "WWW" {
@@ -30,5 +30,5 @@ resource "cloudflare_record" "WWW" {
   value   = data.aws_lb.lb_dns_name.dns_name
   type    = "CNAME"
   proxied = true
-  #depends_on = [aws_lb.Balancer]
+
 }
