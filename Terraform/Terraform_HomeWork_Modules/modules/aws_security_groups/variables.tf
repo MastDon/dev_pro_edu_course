@@ -3,51 +3,34 @@ variable "region" {
   default     = "eu-central-1"
 }
 
+variable "env" {
+  default = "staging"
 
-variable "instance_type" {
-  description = "Set instance type"
-  default     = "t2.micro"
 }
 
-variable "ami_latest" {
-  description = "Set latest AMI Amazon Linux in current region"
-  default     = "data.aws_ami.Latest_Amazon_Linux.id"
+variable "vpc_id" {
+
 }
 
-variable "SecGroup_name" {
+
+variable "security-group-name" {
   description = "Security group name"
-  default     = "My webserver security group"
+  default     = " security group "
 }
 
-variable "zone_id" {
-  description = "Enter cloudflare zone ID: "
+variable "ports" {
 
+  default = ["80", "22", "443"]
 }
 
-variable "cf_mail" {
-  description = "Enter e-mail from cloudflare account: "
+variable "ingress-protocol" {
+  default = "tcp"
 }
 
-variable "cf_apikey" {
-  description = "Enter cloudflare API key: "
+variable "egress-cidr" {
+  default = ["0.0.0.0/24"]
 }
 
-variable "dp-nat-gw" {
-  default = "dp-nat-gw"
-}
-
-variable "dp-igw-name" {
-  default = "dp-internet-gw"
-}
-
-variable "dp-lb-name" {
-  default = "dp-lb-edu"
-}
-
-variable "dp-lb-type" {
-  default = "application"
-}
-
-variable "dp-lb-listener-port" {
-  default = "80"
+variable "ingress-cidr" {
+  default = ["0.0.0.0/24"]
 }
