@@ -3,51 +3,80 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-
-variable "instance_type" {
-  description = "Set instance type"
-  default     = "t2.micro"
+variable "env" {
+  default = "staging"
 }
+
 
 variable "ami_latest" {
   description = "Set latest AMI Amazon Linux in current region"
   default     = "data.aws_ami.Latest_Amazon_Linux.id"
 }
 
-variable "SecGroup_name" {
-  description = "Security group name"
-  default     = "My webserver security group"
+variable "security_groups" {
+  default = "default"
 }
 
-variable "zone_id" {
-  description = "Enter cloudflare zone ID: "
+variable "lb-vpc-id" {
+
 
 }
 
-variable "cf_mail" {
-  description = "Enter e-mail from cloudflare account: "
+variable "listener-default-action" {
+  default = "forward"
 }
 
-variable "cf_apikey" {
-  description = "Enter cloudflare API key: "
+variable "lb-listener-port" {
+  default = "80"
 }
 
-variable "dp-nat-gw" {
-  default = "dp-nat-gw"
-}
-
-variable "dp-igw-name" {
-  default = "dp-internet-gw"
-}
-
-variable "dp-lb-name" {
-  default = "dp-lb-edu"
-}
-
-variable "dp-lb-type" {
+variable "lb-type" {
   default = "application"
 }
 
-variable "dp-lb-listener-port" {
+variable "lb_subnets" {
+  default = [
+    "subnet-08a1021bb010b1684",
+    "subnet-08efec24a30231e3a"
+  ]
+}
+
+variable "subnet_mapping" {
+
+}
+
+variable "lb_target_group_arn" {
+  default = ""
+}
+
+
+#variable "target-group-arn" {}
+
+variable "target_id" {
+}
+
+
+variable "target-group-port" {
   default = "80"
 }
+
+variable "target-protocol" {
+  default = "HTTP"
+}
+
+variable "target-type" {
+  default = "instance"
+}
+
+variable "target-group-attachment-port" {
+  default = "80"
+}
+
+
+#variable "vpc_id" {}
+
+
+
+
+
+
