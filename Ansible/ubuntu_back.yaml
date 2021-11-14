@@ -1,0 +1,57 @@
+---
+- name: Install Ngixx
+  hosts: backend_servers
+  become: yes
+
+  vars:
+  ### Copy config Nginx with phpmyadmin location
+   source_file: ./nginx_back/default
+   dest_file: /etc/nginx/sites-available
+  ### Copy index.php
+   src: ./nginx_back/index.php
+   dst: /var/www/html/
+  ### Copy config-db.php for phpmyadmin
+   src_pma: ./nginx_back/config-db.php
+   dst_pma: /etc/phpmyadmin
+
+  tasks:
+
+   - name: Update repositories
+     apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+   - name: Install Nginx, php-fpm
+     apt: name={{ item }} state=latest
+     loop:
+             - nginx
+             - php-fpm
+             - php-mbstring 
+             - php-xml
+             - mysql-server
+             - phpmyadmin
+
+   -  name: Start the MySQL service
+      service:
+       name: mysql 
+       state: started
+       enabled: yes
+               
+   - name: Startup Nginx
+     service:
+      name: nginx
+      state: started
+      enabled: yes
+     
+   - name: Copy Nginx config
+     copy: src={{ source_file }} dest={{ dest_file }} mode=644
+
+   - name: Copy index.php
+     copy: src={{ src }} dest={{ dst }} mode=644
+
+   - name: Copy phpmyadmin config
+     copy: src={{ src_pma }} dest={{ dst_pma }} mode=644 
+
+   - name: Restart Nginx
+     service:
+      name: nginx
+      state: restarted
+
