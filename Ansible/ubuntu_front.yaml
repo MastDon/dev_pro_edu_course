@@ -1,41 +1,44 @@
 ---
-- name: Install Ngixx
+- name: Install Nginx && PHP to EC2 instance
   hosts: backend_servers
   become: yes
-
+  
   vars:
-   source_file: ./nginx_front/default
-   dest_file: /etc/nginx/sites-available
-   src: ./nginx_front/index.php
-   dst: /var/www/html/
+
+### Copy config Nginx with phpmyadmin location
+
+    source_file: ./nginx_front/default
+    dest_file: /etc/nginx/sites-available
+
+  ### Copy index.php
+
+    src: ./nginx_back/index.php
+    dst: /var/www/html/
 
   tasks:
 
-   - name: Update repositories
-     apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  - name: Update repositories
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-   - name: Install Nginx, php-fpm
-     apt: name={{ item }} state=latest
-     loop:
-             - nginx
-             - php-fpm
-             - php-mbstring 
-             - php-xml
+  - name: Install Nginx, php-fpm
+    apt: name={{ item }} state=present  # present
+    loop:      
+         - nginx
+         - php7.4-fpm
 
-   - name: Add to startup
-     service:
-      name: nginx
-      state: started
-      enabled: yes
-     
-   - name: Copy Nginx config
-     copy: src={{ source_file }} dest={{ dest_file }} mode=644
+  - name: Start & Enabel services
+    service: name={{ item }} enabled=yes
+    loop:
+         - nginx
+         
+  - name: Copy Nginx config
+    copy: src={{ source_file }} dest={{ dest_file }} mode=644
 
-   - name: Copy index.php
-     copy: src={{ src }} dest={{ dst }} mode=644
+  - name: Copy index.php
+    copy: src={{ src }} dest={{ dst }} mode=644
 
-   - name: Restart Nginx
-     service:
-      name: nginx
-      state: restarted
-
+  - name: Restart services
+    service: name={{ item }} state=restarted
+    loop:
+         - nginx
+        # - mysql  
