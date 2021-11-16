@@ -1,0 +1,26 @@
+---
+# tasks file for ubuntu_nginx
+- name: Update repositories
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+
+- name: Install Nginx, php-fpm
+  apt: name={{ item }} state=present  # present
+  loop:     
+         
+         - nginx
+         - php-fpm
+
+- name: Start & Enabel services
+  service: name={{ item }} enabled=yes
+  loop:
+         - nginx
+        #  - php-fpm
+
+- name: Copy Nginx config
+  copy: src=default dest={{ dest_file }} mode=644
+  notify:
+    - Restart Nginx
+
+- name: Copy index.php
+  copy: src=index.php dest={{ dst }} mode=644
