@@ -1,0 +1,8 @@
+---
+# vars file for redhat_back
+src_nginx: nginx.conf
+dest_nginx: /etc/nginx/
+src_index: index.php
+dst_index: /usr/share/nginx/html
+src_pma: ./nginx_back/phpmyadmin.sh
+dst_pma: /home/ec2-user
