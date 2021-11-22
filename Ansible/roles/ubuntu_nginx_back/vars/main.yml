@@ -1,0 +1,24 @@
+---
+
+  
+### Copy config Nginx with phpmyadmin location
+
+source_file: default
+dest_file: /etc/nginx/sites-available
+
+  ### Copy index.php
+
+src: index.php
+dst: /var/www/html/
+
+  ### Copy config-db.php for phpmyadmin
+
+src_pma: config-db.php
+dst_pma: /etc/phpmyadmin
+
+mysql_root_pass: xxx
+dst_sql: ~/.my.cnf
+
+pam_username: phpmyadmin
+pma_password: pmapass
+mysql_pass: mypassword

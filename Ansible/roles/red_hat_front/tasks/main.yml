@@ -1,0 +1,23 @@
+---
+#tasks file for red_hat_front
+
+
+- name: install epel from amazon-extras
+  command: amazon-linux-extras install epel -y
+
+- name: install soft
+  shell: amazon-linux-extras install nginx1 php7.2 -y
+
+- name: Enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy configs files
+  copy: src={{ src_nginx }} dest={{ dest_nginx }} mode=644
+  notify:
+     - Restart Nginx
+
+- name: Copy index.php
+  copy: src={{ src_index }} dest={{ dst_index }} mode=644

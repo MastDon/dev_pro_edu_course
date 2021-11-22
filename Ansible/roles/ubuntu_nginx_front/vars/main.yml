@@ -1,0 +1,9 @@
+---
+
+  
+
+dest_file: /etc/nginx/sites-available
+
+  ### Copy index.php
+
+dst: /var/www/html/

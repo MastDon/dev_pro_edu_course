@@ -1,0 +1,7 @@
+.idea/
+Terraform/Terraform_HomeWork/terraform.tfstate.backup
+Terraform/Terraform_HomeWork/terraform.tfstate
+Terraform/Terraform_HomeWork_Modules/terraform.tfstate.backup
+Terraform/Terraform_HomeWork_Modules/terraform.tfstate
+/Terraform/Terraform_HomeWork/.terraform/
+/Terraform/Terraform_HomeWork_Modules/.terraform/

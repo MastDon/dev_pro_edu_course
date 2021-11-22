@@ -1,0 +1,58 @@
+---
+# tasks file for redhat_back
+- name: install soft
+  shell: amazon-linux-extras install nginx1 lamp-mariadb10.2-php7.2 php7.2 -y
+
+- name: Enable nginx
+  service:
+     name: nginx
+     state: started
+     enabled: yes
+
+- name: Install  tools
+  yum: name={{ item }} state=latest
+  loop:
+    - mariadb-server
+    - php-mbstring 
+    - php-xml
+  
+- name: Restart Nginx
+  service: name=nginx state=restarted
+  #when: ansible_os_family == "Amazon"
+
+- name: Restart PHP-FPM
+  service: name=php-fpm state=restarted
+  #when: ansible_os_family == "Amazon"
+
+
+
+- name: Enable Mariadb
+  service: 
+     name: mariadb
+     state: started
+     enabled: yes
+
+- name: Copy configs files
+  copy: src={{ src_nginx }} dest={{ dest_nginx }} mode=644
+
+- name: Copy index.php
+  copy: src={{ src_index }} dest={{ dst_index }} mode=644
+  notify:
+     - Restart Nginx
+
+- name: Create directory
+  file:
+    path: /usr/share/nginx/html/phpmyadmin
+    state: directory
+    mode: 0755
+
+- name: Download and unpack PMA
+  ansible.builtin.unarchive:
+    src: https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+    dest: /usr/share/nginx/html/phpmyadmin
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+
+#   - name: Install phpmyadmin
+#     shell: ./phpmyadmin.sh

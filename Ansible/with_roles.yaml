@@ -1,0 +1,7 @@
+---
+- name: Install Nginx && PHP && MYSQL to EC2 instance
+  hosts: backend_servers
+  become: yes
+
+  roles:
+   - ubuntu_nginx_back
