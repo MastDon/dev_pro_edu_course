@@ -3,10 +3,12 @@ version: '3'
 services:
   pma:
     #image: mastdon/dp-docker
-    image: mastdon/dp-docker:v2.1
+    #image: mastdon/dp-docker:v2.1
+    build:
+     context: front
     container_name: pma
-    # volumes:
-    #   - ./configs/config.inc.php:/usr/share/phpmyadmin/config.inc.php
+    volumes:
+      - ./con
     environment:
 
       PMA_HOST: mysql

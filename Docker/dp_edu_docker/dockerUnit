@@ -6,8 +6,10 @@ After=docker.service
 [Service]
 User=ubuntu
 Group=docker
+Restart=always
 WorkingDirectory=/home/local/DO/illia.slieptsov/Documents/Education/Docker/dp_edu_docker
 ExecStart=/usr/bin/docker-compose up -d
+ExecStop=/usr/bin/docker-compose stop
 
 [Install]
 WantedBy=multi-user.target

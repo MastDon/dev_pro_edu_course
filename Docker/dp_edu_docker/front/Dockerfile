@@ -7,7 +7,9 @@ RUN  apt-get update -y  && \
     wget https://files.phpmyadmin.net/phpMyAdmin/5.0.0/phpMyAdmin-5.0.0-all-languages.zip && \
     unzip -q phpMyAdmin*.zip && \
     mv phpMyAdmin-5.0.0-all-languages /usr/share/phpmyadmin && \
-    apt install nginx -y
+    apt install nginx -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm phpMyAdmin-5.0.0-all-languages.zip
 
 
 EXPOSE 80
