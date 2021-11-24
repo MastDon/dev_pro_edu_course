@@ -1,0 +1,67 @@
+---
+# tasks file for ubuntu_nginx
+- name: Update repositories
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+
+- name: Install Nginx, php-fpm
+  apt: name={{ item }} state=present  # present
+  loop:     
+         
+         - nginx
+         - php-fpm
+         - php-mbstring 
+         - php-xml
+         - mysql-server
+         - mysql-client
+         - python3-pymysql
+         - libmysqlclient-dev
+         - phpmyadmin
+
+- name: Start & Enabel services
+  service: name={{ item }} enabled=yes
+  loop:
+         - nginx
+         - mysql
+
+
+
+- name: Copy Nginx config
+  copy: src={{ source_file }} dest={{ dest_file }} mode=644
+  notify:
+     - Restart Nginx
+
+- name: Copy index.php
+  copy: src={{ src }} dest={{ dst }} mode=644
+
+- name: Copy phpmyadmin config
+  copy: src={{ src_pma }} dest={{ dst_pma }} mode=644  
+
+- name: Set password for root user and enable remout access
+  mysql_user:
+    name: "root"
+    password: "{{ mysql_root_pass }}"
+    priv: '*.*:ALL,GRANT'
+    host: 'localhost'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: present
+  
+  
+  
+- name: Copy the root credentials as .my.cnf file
+  template: src=root.cnf.j2 dest={{ dst_sql }} mode=0600
+  notify:
+     - Restart MySQL
+
+
+# - name: Start & Enabel services
+#   service: name={{ item }} state=restarted
+#   loop:
+#          - nginx
+#          - mysql  
+
+- name: "Create phpmyadmin user {{ pam_username }}"
+  mysql_user:
+     name: "{{ pam_username }}"
+     password: "{{ pma_password }}"
+     priv: '*.*:ALL'

@@ -1,0 +1,41 @@
+---
+- name: Install nginx, php-fpm to RedHat OS family
+  hosts: rh_servers
+  become: yes
+
+  vars:
+   src_nginx: ./nginx_front/nginx.conf
+   dest_nginx: /etc/nginx/
+   src_index: ./nginx_front/index.php
+   dst_index: /usr/share/nginx/html
+
+  tasks:
+
+  - name: install epel from amazon-extras
+    shell: amazon-linux-extras install epel
+
+  - name: install soft
+    shell: amazon-linux-extras install nginx1 php7.2
+
+  - name: Enable nginx
+    service:
+     name: nginx
+     state: started
+     enabled: yes
+  - name: Copy configs files
+    copy: src={{ src_nginx }} dest={{ dest_nginx }} mode=644
+
+  - name: Copy index.php
+    copy: src={{ src_index }} dest={{ dst_index }} mode=644
+
+  - name: Restart Nginx
+    service:
+     name: nginx
+     state: restarted
+
+
+    #lamp-mariadb10.2-php7.2 php7.2 -y
+
+  
+  
+

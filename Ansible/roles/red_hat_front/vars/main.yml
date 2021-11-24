@@ -1,0 +1,6 @@
+---
+# vars file for red_hat_front
+src_nginx: nginx.conf
+dest_nginx: /etc/nginx/
+src_index: index.php
+dst_index: /usr/share/nginx/html
