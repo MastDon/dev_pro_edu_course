@@ -3,12 +3,12 @@ pipeline {
         label "Veev"
      }
 
-    //  stages {
-    //     stage('Ansible') {
-    //         steps {
-    //             sh 'ansible --version'
-    //         }
-    //     }
+     stages {
+        // stage('Ansible') {
+        //     steps {
+        //         sh 'ansible --version'
+        //     }
+        // }
         
         stage('Git pull'){
             
