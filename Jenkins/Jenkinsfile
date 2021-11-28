@@ -1,0 +1,97 @@
+pipeline {
+     agent{
+        label "Veev"
+     }
+
+     stages {
+        stage('Ansible') {
+            steps {
+                sh 'ansible --version'
+            }
+        }
+        
+        stage('Git pull'){
+            
+            steps{
+              sh 'cd /root/git_repo && git pull'
+            }
+        }
+        
+        stage('Terraform init') {
+            
+            steps {
+                    withAWS(credentials:'53bb598a-02f7-4dc2-aefa-0e24ca61141b') {
+                sh ' cd /root/git_repo && terraform init'
+                  }
+    
+            }
+            
+            // steps {
+            //     sh ' cd /root/git_repo && terraform init'
+            // }
+         }
+         
+        
+        stage('Terraform plan'){
+            
+             steps {
+                    withAWS(credentials:'53bb598a-02f7-4dc2-aefa-0e24ca61141b') {
+                        
+                sh 'cd /root/git_repo  && terraform plan '
+                  }
+    
+            }
+            
+            
+        }
+        
+        
+        
+        stage('Terraform apply'){
+            
+             steps {
+                    withAWS(credentials:'53bb598a-02f7-4dc2-aefa-0e24ca61141b') {
+                sh 'cd /root/git_repo  && terraform apply --auto-approve '
+                  }
+    
+            }
+            
+            
+        }
+
+        stage ('Ansible decrypt key') {
+       
+            steps {
+               sh 'cd /root/git_repo/dp_ansible && ansible-vault decrypt dpkey.pem --vault-password-file /tmp/key.txt || echo "SUCCESS decrypted" '
+            }
+        }
+
+        stage ('Ansible') {
+        
+        steps {
+            sh 'cd /root/git_repo/dp_ansible && ansible-playbook -i aws_ec2.yml run.yml'
+            }
+        }
+
+
+        
+        stage('Terraform destroy'){
+            
+             steps {
+                    withAWS(credentials:'53bb598a-02f7-4dc2-aefa-0e24ca61141b') {
+                        sleep 600
+                sh 'cd /root/git_repo  && terraform destroy --auto-approve '
+                  }
+    
+            }
+            
+            
+        }
+          
+}
+ post {
+        always {
+            emailext body: 'Notification ', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
+    }
+}

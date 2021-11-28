@@ -1,0 +1,14 @@
+---
+# handlers file for ubuntu_nginx
+
+- name: Restart Nginx
+  service: name=nginx state=restarted
+  when: ansible_os_family == "Amazon"
+
+- name: Restart PHP-FPM
+  service: name=php-fpm state=restarted
+  when: ansible_os_family == "Amazon"
+
+- name: Restart MySQL
+  service: name=mysql state=restarted
+  when: ansible_os_family == "Amazon"

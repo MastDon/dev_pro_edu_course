@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  pma:
+    #image: mastdon/dp-docker
+    #image: mastdon/dp-docker:v2.1
+    build:
+     context: front
+    container_name: pma
+    volumes:
+      - ./con
+    environment:
+
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+
+    ports:
+      - 8080:80
+    links:
+      - 'mysql'
+
+  mysql:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: pma
+      MYSQL_PASSWORD: password
+
+volumes:
+  mysql-data:
+    driver: local

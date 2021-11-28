@@ -1,0 +1,12 @@
+- name: Nginx_php_install
+  hosts: tag_name_front
+  become: yes
+  roles: 
+    - ubuntu_nginx_front
+
+
+- name: Mysql_phpmyadmin_install
+  hosts: tag_name_back
+  become: yes
+  roles:
+    - ubuntu_nginx_back

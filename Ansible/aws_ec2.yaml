@@ -1,0 +1,15 @@
+plugin: aws_ec2
+regions:
+  - eu-central-1
+
+
+hostnames:
+ - ip-address
+
+
+keyed_groups:
+  - prefix: tag_Env
+    key: tags.Env
+
+# groups:
+#  ubuntu: "'ubuntu' in tags.OS"
